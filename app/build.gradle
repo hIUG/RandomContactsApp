@@ -10,6 +10,7 @@ androidExtensions {
 
 android {
     compileSdkVersion 26
+
     defaultConfig {
         applicationId "com.allexis.randomcontactsapp"
         minSdkVersion 23
@@ -18,11 +19,20 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 
@@ -30,17 +40,43 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     /**
-     * Android
+     * Android and Kotlin
      * */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:cardview-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    annotationProcessor "com.android.databinding:compiler:3.0"
 
     /**
-     * Network
+     * Network (Including RxJava, RxAndroid)
      * */
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.5'
+
+    /**
+     * Views and Image handling
+     * */
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    /**
+     * Firebase
+     * */
+    implementation 'com.google.firebase:firebase-auth:11.4.2'
+    implementation 'com.firebaseui:firebase-ui-auth:3.1.0'
+
+    /**
+     * Dagger2
+     * */
+    implementation 'com.google.dagger:dagger:2.0.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.0.1'
 
     /**
      * Testing
@@ -49,3 +85,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
+
+
+apply plugin: 'com.google.gms.google-services'

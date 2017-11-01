@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "602040062244",
+    "firebase_url": "https://randomcontacts-c893d.firebaseio.com",
+    "project_id": "randomcontacts-c893d",
+    "storage_bucket": "randomcontacts-c893d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602040062244:android:3836a40414a217ed",
+        "android_client_info": {
+          "package_name": "com.allexis.randomcontactsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602040062244-vcbgrc730co7047chphav44rt6tgfvon.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.allexis.randomcontactsapp",
+            "certificate_hash": "5dd2f99c2b2e4b639aac877bc166701fa7e14d3a"
+          }
+        },
+        {
+          "client_id": "602040062244-j340vpd0vkl5bbi6390ersjoiurnrnmt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmVgoG-Qp4z1bcqtlx5Knzf1XvA_LkxV4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602040062244-j340vpd0vkl5bbi6390ersjoiurnrnmt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
