@@ -32,6 +32,12 @@ public class UserFragmentViewModel extends BaseBindingFragmentViewModel<UserFrag
         }, throwable -> getFragment().error(throwable));
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        controller.dispose();
+    }
+
     @Bindable
     public UserFragmentViewModel getViewModel() {
         return this;

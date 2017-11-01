@@ -26,7 +26,7 @@ public abstract class NetworkController<T> {
     protected static final String DOMAIN = "randomuser.me/";
     private static final String TAG = NetworkController.class.getSimpleName();
     private static final String BASE_URL = PROTOCOL_HTTPS + DOMAIN + "api/";
-    private static CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private CompositeDisposable compositeDisposable;
     /**
      * OkHttp and Retrofit instances in case a custom behaviour, interceptor, etc needs to be done.
      */
@@ -46,10 +46,12 @@ public abstract class NetworkController<T> {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
+        compositeDisposable = new CompositeDisposable();
+
         initClient();
     }
 
-    public static void disposeAll() {
+    public void dispose() {
         compositeDisposable.clear();
     }
 
