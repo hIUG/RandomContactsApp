@@ -1,65 +1,115 @@
 package com.allexis.randomcontactsapp.ui.screen.home;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.allexis.randomcontactsapp.R;
+import com.allexis.randomcontactsapp.RandomContactsApplication;
 import com.allexis.randomcontactsapp.ui.screen.user.UserFragment;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.ErrorCodes;
+import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Arrays;
+import java.util.Collections;
+
+import javax.inject.Inject;
 
 /**
  * Created by allexis on 10/11/17.
  */
 public class HomeActivity extends AppCompatActivity {
 
-    private FirebaseAuth auth;
+    private static final String TAG = HomeActivity.class.getSimpleName();
+
+    private static final int RC_SIGN_IN = 123;
+    private static final int RC_2FA = 456;
+
+    @Inject
+    FirebaseAuth auth;
+
+    private String authDisplayName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        auth = FirebaseAuth.getInstance();
+        RandomContactsApplication.getComponent().inject(this);
 
-        UserFragment fragment = UserFragment.newInstance();
-        goToNewFragment(fragment, fragment.getTag(), false);
+        verifyLoginStatus();
+    }
+
+    private void verifyLoginStatus() {
         if (auth.getCurrentUser() != null) {
-//            processSignedIn();
+            //perform2FA();
+            goToUserFragment();
         } else {
-            //doSignIn();
-//            CompositeDisposable compositeDisposable = new CompositeDisposable();
-//            compositeDisposable.add(new Observable<List<UserResult>>()
-//                    .subscribeOn()
-//                    .map(new Function<List<UserResult>, UserResult>() {
-//                        @Override
-//                        public UserResult apply(List<UserResult> userResults) throws Exception {
-//                            return userResults.get(0);
-//                        }
-//                    })
-//                    .map((Function<List<UserResult>, UserResult>) userResults -> userResults.get(0))
-//                    .subscribe(r -> {
-//                        Log.d("TAG", "accept: " + r + "accepted");
-//                        r.toString();
-//                    }, throwable -> {
-//                        Log.e("TAG", "accept: throwable accepted", throwable);
-//                        throwable.toString();
-//                    })
-//                    .subscribe(new Consumer<R>() {
-//                        @Override
-//                        public void accept(R r) throws Exception {
-//                            Log.d("TAG", "accept: " + r + "accepted");
-//                            r.toString();
-//                        }
-//                    }, new Consumer<Throwable>() {
-//                        @Override
-//                        public void accept(Throwable throwable) throws Exception {
-//                            Log.e("TAG", "accept: throwable accepted", throwable);
-//                            throwable.toString();
-//                        }
-//                    }));
+            doSignIn();
         }
+    }
+
+    private void doSignIn() {
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
+                        .setIsSmartLockEnabled(false)
+                        .build(),
+                RC_SIGN_IN);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            if (resultCode == Activity.RESULT_OK) {
+                authDisplayName = auth.getCurrentUser().getDisplayName();
+                perform2FA();
+            } else {
+                if (response == null) {
+                    // User pressed back button
+                    Log.e(TAG, "Sign in cancelled");
+                }
+                if (response.getErrorCode() == ErrorCodes.NO_NETWORK) {
+                    Log.e("HACE:ERR:", "No network...");
+                }
+
+                if (response.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
+                    Log.e("HACE:ERR:", "Unknown sign in error");
+                }
+                verifyLoginStatus();
+            }
+        } else if (requestCode == RC_2FA) {
+            if (resultCode == Activity.RESULT_OK) {
+                goToUserFragment();
+            } else {
+                auth.signOut();
+                verifyLoginStatus();
+            }
+        }
+    }
+
+    private void perform2FA() {
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(Collections.singletonList(new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()))
+                        .build(),
+                RC_2FA);
+    }
+
+    private void goToUserFragment() {
+        UserFragment fragment = UserFragment.newInstance(authDisplayName);
+        goToNewFragment(fragment, fragment.getTag(), false);
     }
 
     public void goToNewFragment(Fragment fragment, String fragmentTag, boolean addToBackStack) {

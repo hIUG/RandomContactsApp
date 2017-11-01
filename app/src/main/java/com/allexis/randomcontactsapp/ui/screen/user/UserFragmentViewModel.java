@@ -3,10 +3,14 @@ package com.allexis.randomcontactsapp.ui.screen.user;
 import android.databinding.Bindable;
 
 import com.allexis.randomcontactsapp.BR;
+import com.allexis.randomcontactsapp.R;
 import com.allexis.randomcontactsapp.core.base.databinding.fragment.BaseBindingFragmentViewModel;
 import com.allexis.randomcontactsapp.core.network.service.randomuser.RandomUserController;
 import com.allexis.randomcontactsapp.core.network.service.randomuser.model.User;
+import com.allexis.randomcontactsapp.core.persistence.SharedPreferencesManager;
 import com.allexis.randomcontactsapp.core.util.UserUtil;
+
+import javax.inject.Inject;
 
 /**
  * Created by allexis on 11/1/17.
@@ -14,8 +18,11 @@ import com.allexis.randomcontactsapp.core.util.UserUtil;
 
 public class UserFragmentViewModel extends BaseBindingFragmentViewModel<UserFragment> {
 
+    @Inject
+    SharedPreferencesManager sharedPreferencesManager;
     private RandomUserController controller;
     private User user;
+    private String displayName;
 
     public UserFragmentViewModel(UserFragment fragment) {
         super(fragment);
@@ -27,7 +34,7 @@ public class UserFragmentViewModel extends BaseBindingFragmentViewModel<UserFrag
         controller.getRandomUser(userResult -> {
             if (userResult.getResults().size() > 0) {
                 user = userResult.getResults().get(0);
-                notifyPropertyChanged(BR.userName);
+                notifyPropertyChanged(BR._all);
             }
         }, throwable -> getFragment().error(throwable));
     }
@@ -38,16 +45,41 @@ public class UserFragmentViewModel extends BaseBindingFragmentViewModel<UserFrag
         controller.dispose();
     }
 
+    public void handleDismissClick() {
+        getFragment().showShortToast("So sad :'( ... Do you like better this other user?");
+        fetchNewUser();
+    }
+
+    public void handleLikeClick() {
+        getFragment().showShortToast("Ok, you like this user!");
+    }
+
     @Bindable
     public UserFragmentViewModel getViewModel() {
         return this;
     }
 
     @Bindable
+    public User getUser() {
+        return user;
+    }
+
+    @Bindable
     public String getUserName() {
-        if (user != null) {
-            return UserUtil.getFullName(user);
-        }
-        return "No real data yet";
+        return UserUtil.getFullName(user);
+    }
+
+    @Bindable
+    public String getUserLocation() {
+        return UserUtil.getLocation(user);
+    }
+
+    @Bindable
+    public String getDisplayName() {
+        return String.format(getActivity().getString(R.string.hi_message), displayName);
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

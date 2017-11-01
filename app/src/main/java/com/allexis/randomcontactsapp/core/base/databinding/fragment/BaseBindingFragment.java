@@ -19,8 +19,8 @@ import com.allexis.randomcontactsapp.core.base.databinding.IView;
 public abstract class BaseBindingFragment<VM extends BaseBindingFragmentViewModel, B extends ViewDataBinding>
         extends Fragment implements IView {
 
-    private B binding;
-    private VM viewModel;
+    protected B binding;
+    protected VM viewModel;
     private Bundle savedInstanceState;
 
     protected abstract VM onCreateViewModel(B binding);
@@ -42,17 +42,13 @@ public abstract class BaseBindingFragment<VM extends BaseBindingFragmentViewMode
         viewModel.onViewCreated();
     }
 
-    public B getBinding() {
-        return binding;
-    }
-
     public Bundle getSavedInstanceState() {
         return savedInstanceState;
     }
 
     public void resetViewModel() {
         viewModel = onCreateViewModel(binding);
-        getBinding().setVariable(getVariable(), viewModel);
+        binding.setVariable(getVariable(), viewModel);
     }
 
     @Override
