@@ -28,9 +28,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SplashAndHomeActivityTest {
+public class HomeActivityTest {
 
-    private static final String TEST_USER_NAME = "";
+    private static final String TEST_USER_NAME = "TEST_USER_NAME";
 
     @Rule
     public ActivityTestRule<HomeActivity> mActivityTestRule = new ActivityTestRule<>(HomeActivity.class, true, false);
@@ -64,43 +64,6 @@ public class SplashAndHomeActivityTest {
 
         //User name label should match no name when no user logged in
         onView(withId(R.id.user_profile_name)).check(matches(withText("Hi !")));
-//        // Added a sleep statement to match the app's execution delay.
-//        // The recommended way to handle such scenarios is to use Espresso idling resources:
-//        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-//        try {
-//            Thread.sleep(3598767);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        ViewInteraction supportVectorDrawablesButton = onView(
-//                allOf(withId(R.id.google_button), withText("Sign in with Google"),
-//                        childAtPosition(
-//                                allOf(withId(R.id.btn_holder),
-//                                        childAtPosition(
-//                                                withId(R.id.container),
-//                                                0)),
-//                                1)));
-//        supportVectorDrawablesButton.perform(scrollTo(), click());
-//
-//        // Added a sleep statement to match the app's execution delay.
-//        // The recommended way to handle such scenarios is to use Espresso idling resources:
-//        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-//        try {
-//            Thread.sleep(3598857);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        ViewInteraction textView = onView(
-//                allOf(withText("Hi Hugo Allexis Cardona Escalante!"),
-//                        childAtPosition(
-//                                childAtPosition(
-//                                        withId(R.id.main_content_layout),
-//                                        0),
-//                                0),
-//                        isDisplayed()));
-//        textView.check(matches(withText("Hi Hugo Allexis Cardona Escalante!")));
 
     }
 }
