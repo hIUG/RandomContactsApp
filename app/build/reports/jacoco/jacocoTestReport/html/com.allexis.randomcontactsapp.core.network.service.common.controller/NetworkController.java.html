@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NetworkController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">com.allexis.randomcontactsapp.core.network.service.common.controller</a> &gt; <span class="el_source">NetworkController.java</span></div><h1>NetworkController.java</h1><pre class="source lang-java linenums">package com.allexis.randomcontactsapp.core.network.service.common.controller;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+/**
+ * Created by allexis on 10/30/17.
+ * &lt;p&gt;
+ * Base network controller to be extended by other network controllers, protected access strings to
+ * build a different custom URL if needed by a child controller. The default one shared among all
+ * controllers is defined here.
+ * Custom controllers should override getURL() in case they want to use a custom URL
+ */
+
+public abstract class NetworkController&lt;T&gt; {
+
+    protected static final String PROTOCOL_HTTPS = &quot;http://&quot;;
+    protected static final String DOMAIN = &quot;randomuser.me/&quot;;
+<span class="nc" id="L27">    private static final String TAG = NetworkController.class.getSimpleName();</span>
+    private static final String BASE_URL = PROTOCOL_HTTPS + DOMAIN + &quot;api/&quot;;
+    private CompositeDisposable compositeDisposable;
+    /**
+     * OkHttp and Retrofit instances in case a custom behaviour, interceptor, etc needs to be done.
+     */
+    private Retrofit retrofit;
+    private OkHttpClient okHttpClient;
+
+<span class="nc" id="L36">    public NetworkController() {</span>
+<span class="nc" id="L37">        okHttpClient = new OkHttpClient.Builder()</span>
+<span class="nc" id="L38">                .addInterceptor(new HttpLoggingInterceptor()</span>
+<span class="nc" id="L39">                        .setLevel(HttpLoggingInterceptor.Level.BODY))</span>
+<span class="nc" id="L40">                .build();</span>
+
+<span class="nc" id="L42">        retrofit = new Retrofit.Builder()</span>
+<span class="nc" id="L43">                .baseUrl(BASE_URL)</span>
+<span class="nc" id="L44">                .client(okHttpClient)</span>
+<span class="nc" id="L45">                .addConverterFactory(GsonConverterFactory.create())</span>
+<span class="nc" id="L46">                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())</span>
+<span class="nc" id="L47">                .build();</span>
+
+<span class="nc" id="L49">        compositeDisposable = new CompositeDisposable();</span>
+
+<span class="nc" id="L51">        initClient();</span>
+<span class="nc" id="L52">    }</span>
+
+    public void dispose() {
+<span class="nc" id="L55">        compositeDisposable.clear();</span>
+<span class="nc" id="L56">    }</span>
+
+    protected abstract void initClient();
+
+    protected &lt;R&gt; R create(final Class&lt;R&gt; clientClass) {
+<span class="nc" id="L61">        return retrofit.create(clientClass);</span>
+    }
+
+    public void execute(Observable&lt;T&gt; observable, Consumer&lt;T&gt; successConsumer, Consumer&lt;Throwable&gt; errorConsumer) {
+<span class="nc" id="L65">        compositeDisposable.add(observable</span>
+<span class="nc" id="L66">                .subscribeOn(Schedulers.io())</span>
+<span class="nc" id="L67">                .observeOn(AndroidSchedulers.mainThread())</span>
+<span class="nc" id="L68">                .subscribe(successConsumer, errorConsumer));</span>
+<span class="nc" id="L69">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserFragmentViewModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">com.allexis.randomcontactsapp.ui.screen.user</a> &gt; <span class="el_source">UserFragmentViewModel.java</span></div><h1>UserFragmentViewModel.java</h1><pre class="source lang-java linenums">package com.allexis.randomcontactsapp.ui.screen.user;
+
+import android.databinding.Bindable;
+
+import com.allexis.randomcontactsapp.BR;
+import com.allexis.randomcontactsapp.R;
+import com.allexis.randomcontactsapp.core.base.databinding.fragment.BaseBindingFragmentViewModel;
+import com.allexis.randomcontactsapp.core.network.service.randomuser.RandomUserController;
+import com.allexis.randomcontactsapp.core.network.service.randomuser.model.User;
+import com.allexis.randomcontactsapp.core.persistence.SharedPreferencesManager;
+import com.allexis.randomcontactsapp.core.util.UserUtil;
+
+import javax.inject.Inject;
+
+/**
+ * Created by allexis on 11/1/17.
+ */
+
+public class UserFragmentViewModel extends BaseBindingFragmentViewModel&lt;UserFragment&gt; {
+
+    @Inject
+    SharedPreferencesManager sharedPreferencesManager;
+    private RandomUserController controller;
+    private User user;
+    private String displayName;
+
+    public UserFragmentViewModel(UserFragment fragment) {
+<span class="nc" id="L28">        super(fragment);</span>
+<span class="nc" id="L29">        controller = new RandomUserController();</span>
+<span class="nc" id="L30">        fetchNewUser();</span>
+<span class="nc" id="L31">    }</span>
+
+    protected void fetchNewUser() {
+<span class="nc" id="L34">        controller.getRandomUser(userResult -&gt; {</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">            if (userResult.getResults().size() &gt; 0) {</span>
+<span class="nc" id="L36">                user = userResult.getResults().get(0);</span>
+<span class="nc" id="L37">                notifyPropertyChanged(BR._all);</span>
+            }
+<span class="nc" id="L39">        }, throwable -&gt; getFragment().error(throwable));</span>
+<span class="nc" id="L40">    }</span>
+
+    @Override
+    public void onDestroy() {
+<span class="nc" id="L44">        super.onDestroy();</span>
+<span class="nc" id="L45">        controller.dispose();</span>
+<span class="nc" id="L46">    }</span>
+
+    public void handleDismissClick() {
+<span class="nc" id="L49">        getFragment().showShortToast(&quot;So sad :'( ... Do you like better this other user?&quot;);</span>
+<span class="nc" id="L50">        fetchNewUser();</span>
+<span class="nc" id="L51">    }</span>
+
+    public void handleLikeClick() {
+<span class="nc" id="L54">        getFragment().showShortToast(&quot;Ok, you like this user!&quot;);</span>
+<span class="nc" id="L55">    }</span>
+
+    @Bindable
+    public UserFragmentViewModel getViewModel() {
+<span class="nc" id="L59">        return this;</span>
+    }
+
+    @Bindable
+    public User getUser() {
+<span class="nc" id="L64">        return user;</span>
+    }
+
+    @Bindable
+    public String getUserName() {
+<span class="nc" id="L69">        return UserUtil.getFullName(user);</span>
+    }
+
+    @Bindable
+    public String getUserLocation() {
+<span class="nc" id="L74">        return UserUtil.getLocation(user);</span>
+    }
+
+    @Bindable
+    public String getDisplayName() {
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        return String.format(getActivity().getString(R.string.hi_message), displayName == null ? &quot;&quot; : displayName);</span>
+    }
+
+    public void setDisplayName(String displayName) {
+<span class="nc" id="L83">        this.displayName = displayName;</span>
+<span class="nc" id="L84">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomBindingAdapter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">com.allexis.randomcontactsapp.core.base.databinding.common</a> &gt; <span class="el_source">CustomBindingAdapter.java</span></div><h1>CustomBindingAdapter.java</h1><pre class="source lang-java linenums">package com.allexis.randomcontactsapp.core.base.databinding.common;
+
+import android.databinding.BindingAdapter;
+import android.support.v4.content.ContextCompat;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.allexis.randomcontactsapp.R;
+import com.allexis.randomcontactsapp.core.util.UserUtil;
+import com.squareup.picasso.Picasso;
+
+/**
+ * Created by allexis on 11/1/17.
+ */
+
+<span class="nc" id="L16">public class CustomBindingAdapter {</span>
+
+    @BindingAdapter({&quot;picture&quot;})
+    public static void loadImage(ImageView view, String url) {
+<span class="nc" id="L20">        Picasso.with(view.getContext())</span>
+<span class="nc" id="L21">                .load(url)</span>
+<span class="nc" id="L22">                .into(view);</span>
+<span class="nc" id="L23">    }</span>
+
+    @BindingAdapter({&quot;colorBasedOnGender&quot;})
+    public static void loadColorBasedOnGender(TextView view, String gender) {
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (UserUtil.isMale(gender)) {</span>
+<span class="nc" id="L28">            view.setTextColor(ContextCompat.getColor(view.getContext(), R.color.name_text_male));</span>
+        } else {
+<span class="nc" id="L30">            view.setTextColor(ContextCompat.getColor(view.getContext(), R.color.name_text_female));</span>
+        }
+<span class="nc" id="L32">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

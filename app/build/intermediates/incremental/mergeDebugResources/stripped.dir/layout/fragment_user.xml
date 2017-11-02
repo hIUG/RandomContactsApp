@@ -1,0 +1,86 @@
+
+                                                       
+                                                   
+
+    
+
+                 
+                            
+                                                                                        
+           
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.allexis.randomcontactsapp.ui.screen.user.UserFragment" android:tag="layout/fragment_user_0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+
+        <TextView
+            android:id="@+id/user_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:tag="binding_1"                
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/user_profile_picture"
+            android:tag="binding_2"                  
+            android:layout_width="256dp"
+            android:layout_height="256dp"
+            android:layout_marginTop="80dp"
+            android:contentDescription="@string/user_profile_picture_descpription"
+            android:src="@color/cardview_dark_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:tag="binding_3"                      
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+                                                
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_profile_picture" />
+
+        <TextView
+            android:id="@+id/user_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:tag="binding_4"                 
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_name" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/user_dismiss_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_fab_buttons"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_close_black_large"
+            app:fabSize="normal"
+            app:layout_constraintStart_toStartOf="@id/user_profile_picture"
+            app:layout_constraintTop_toBottomOf="@id/user_location" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/user_like_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_fab_buttons"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_user_like"
+            app:fabSize="normal"
+            app:layout_constraintEnd_toEndOf="@id/user_profile_picture"
+            app:layout_constraintTop_toBottomOf="@id/user_location" />
+
+    </android.support.constraint.ConstraintLayout>
+
+         

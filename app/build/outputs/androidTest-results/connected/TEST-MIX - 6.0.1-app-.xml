@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.allexis.randomcontactsapp.ExampleInstrumentedTest" tests="2" failures="0" errors="0" skipped="0" time="0.758" timestamp="2017-11-02T23:13:15" hostname="localhost">
+  <properties>
+    <property name="device" value="MIX - 6.0.1" />
+    <property name="flavor" value="" />
+    <property name="project" value="app" />
+  </properties>
+  <testcase name="useAppContext" classname="com.allexis.randomcontactsapp.ExampleInstrumentedTest" time="0.025" />
+  <testcase name="testNotLoggedInName" classname="com.allexis.randomcontactsapp.ui.screen.splash.HomeActivityTest" time="0.535" />
+</testsuite>

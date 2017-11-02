@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseBindingFragment.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">com.allexis.randomcontactsapp.core.base.databinding.fragment</a> &gt; <span class="el_source">BaseBindingFragment.java</span></div><h1>BaseBindingFragment.java</h1><pre class="source lang-java linenums">package com.allexis.randomcontactsapp.core.base.databinding.fragment;
+
+import android.app.Fragment;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.allexis.randomcontactsapp.core.base.databinding.IView;
+
+/**
+ * Created by allexis on 11/1/17.
+ */
+
+<span class="fc" id="L19">public abstract class BaseBindingFragment&lt;VM extends BaseBindingFragmentViewModel, B extends ViewDataBinding&gt;</span>
+        extends Fragment implements IView {
+
+    public VM viewModel;
+    protected B binding;
+    private Bundle savedInstanceState;
+
+    protected abstract VM onCreateViewModel(B binding);
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+<span class="nc" id="L31">        binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);</span>
+<span class="nc" id="L32">        return binding.getRoot();</span>
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+<span class="nc" id="L37">        super.onViewCreated(view, savedInstanceState);</span>
+<span class="nc" id="L38">        this.savedInstanceState = savedInstanceState;</span>
+<span class="nc" id="L39">        viewModel = onCreateViewModel(binding);</span>
+<span class="nc" id="L40">        binding.setVariable(getVariable(), viewModel);</span>
+<span class="nc" id="L41">        binding.executePendingBindings();</span>
+<span class="nc" id="L42">        viewModel.onViewCreated();</span>
+<span class="nc" id="L43">    }</span>
+
+    public Bundle getSavedInstanceState() {
+<span class="nc" id="L46">        return savedInstanceState;</span>
+    }
+
+    public void resetViewModel() {
+<span class="nc" id="L50">        viewModel = onCreateViewModel(binding);</span>
+<span class="nc" id="L51">        binding.setVariable(getVariable(), viewModel);</span>
+<span class="nc" id="L52">    }</span>
+
+    @Override
+    public void showShortToast(String message) {
+<span class="nc" id="L56">        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L57">    }</span>
+
+    @Override
+    public void showLongToast(String message) {
+<span class="nc" id="L61">        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();</span>
+<span class="nc" id="L62">    }</span>
+
+    @Override
+    public void onStart() {
+<span class="nc" id="L66">        viewModel.onStart();</span>
+<span class="nc" id="L67">        super.onStart();</span>
+<span class="nc" id="L68">    }</span>
+
+    @Override
+    public void onStop() {
+<span class="nc" id="L72">        viewModel.onStop();</span>
+<span class="nc" id="L73">        super.onStop();</span>
+<span class="nc" id="L74">    }</span>
+
+    @Override
+    public void onPause() {
+<span class="nc" id="L78">        viewModel.onPause();</span>
+<span class="nc" id="L79">        super.onPause();</span>
+<span class="nc" id="L80">    }</span>
+
+    @Override
+    public void onResume() {
+<span class="nc" id="L84">        super.onResume();</span>
+<span class="nc" id="L85">        viewModel.onResume();</span>
+<span class="nc" id="L86">    }</span>
+
+    @Override
+    public void onDestroy() {
+<span class="nc" id="L90">        super.onDestroy();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (viewModel != null) {</span>
+<span class="nc" id="L92">            viewModel.onDestroy();</span>
+        }
+<span class="nc" id="L94">    }</span>
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+<span class="nc" id="L98">        super.onSaveInstanceState(outState);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (viewModel != null) {</span>
+<span class="nc" id="L100">            viewModel.onSaveInstanceState(outState);</span>
+        }
+<span class="nc" id="L102">    }</span>
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+<span class="nc" id="L106">        super.onViewStateRestored(savedInstanceState);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (viewModel != null) {</span>
+<span class="nc" id="L108">            viewModel.onViewStateRestored(savedInstanceState);</span>
+        }
+<span class="nc" id="L110">    }</span>
+
+    @Override
+    public void onDestroyView() {
+<span class="nc" id="L114">        viewModel.onDestroyView();</span>
+<span class="nc" id="L115">        super.onDestroyView();</span>
+<span class="nc" id="L116">    }</span>
+
+    protected abstract int getLayoutId();
+
+    protected abstract int getVariable();
+
+    protected abstract String getFragmentTag();
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

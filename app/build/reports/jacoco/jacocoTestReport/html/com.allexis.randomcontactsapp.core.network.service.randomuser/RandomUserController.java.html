@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RandomUserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">com.allexis.randomcontactsapp.core.network.service.randomuser</a> &gt; <span class="el_source">RandomUserController.java</span></div><h1>RandomUserController.java</h1><pre class="source lang-java linenums">package com.allexis.randomcontactsapp.core.network.service.randomuser;
+
+import com.allexis.randomcontactsapp.core.network.service.common.controller.NetworkController;
+import com.allexis.randomcontactsapp.core.network.service.randomuser.model.UserResult;
+
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+
+import static com.allexis.randomcontactsapp.core.network.service.randomuser.RandomUserController.RandomUserService.NATIONALITY_US;
+
+/**
+ * Created by allexis on 11/1/17.
+ */
+
+<span class="nc" id="L17">public class RandomUserController extends NetworkController&lt;UserResult&gt; {</span>
+
+    private RandomUserService service;
+
+    @Override
+    protected void initClient() {
+<span class="nc" id="L23">        service = create(RandomUserService.class);</span>
+<span class="nc" id="L24">    }</span>
+
+    public void getRandomUser(Consumer&lt;UserResult&gt; successConsumer, Consumer&lt;Throwable&gt; errorConsumer) {
+<span class="nc" id="L27">        execute(service.getRandomUser(NATIONALITY_US), successConsumer, errorConsumer);</span>
+<span class="nc" id="L28">    }</span>
+
+    public interface RandomUserService {
+
+        String NATIONALITY_US = &quot;us&quot;;
+
+        @GET(&quot;.&quot;)
+        Observable&lt;UserResult&gt; getRandomUser(@Query(&quot;nat&quot;) String nationality);
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>
