@@ -35,6 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth auth;
 
     private String authDisplayName;
+    private boolean skip2FA = true; //for debugging
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +49,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void verifyLoginStatus() {
         if (auth.getCurrentUser() != null) {
-            //perform2FA();
-            goToUserFragment();
+            perform2FA();
         } else {
             doSignIn();
         }
@@ -99,6 +99,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void perform2FA() {
+        if (skip2FA) {
+            goToUserFragment();
+            return;
+        }
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
