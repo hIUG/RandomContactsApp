@@ -30,11 +30,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
     private static final int RC_2FA = 456;
-
+    public String authDisplayName;
     @Inject
     FirebaseAuth auth;
-
-    private String authDisplayName;
     private boolean skip2FA = true; //for debugging
 
     @Override

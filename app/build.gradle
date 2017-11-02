@@ -24,7 +24,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     sourceDirectories = files([mainSrc])
     classDirectories = files([debugTree])
     executionData = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+            'jacoco/testDebugUnitTest.exec', '"outputs/code-coverage/connected/*coverage.ec"'
     ])
 }
 
@@ -122,6 +122,8 @@ dependencies {
      * Testing
      * */
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:2.11.0"
+    testImplementation "org.robolectric:robolectric:3.5.1"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }

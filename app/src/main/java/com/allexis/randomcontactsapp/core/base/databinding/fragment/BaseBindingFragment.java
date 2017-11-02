@@ -19,8 +19,8 @@ import com.allexis.randomcontactsapp.core.base.databinding.IView;
 public abstract class BaseBindingFragment<VM extends BaseBindingFragmentViewModel, B extends ViewDataBinding>
         extends Fragment implements IView {
 
+    public VM viewModel;
     protected B binding;
-    protected VM viewModel;
     private Bundle savedInstanceState;
 
     protected abstract VM onCreateViewModel(B binding);

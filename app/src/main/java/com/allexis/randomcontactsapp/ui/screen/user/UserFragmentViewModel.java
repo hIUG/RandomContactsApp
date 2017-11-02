@@ -30,7 +30,7 @@ public class UserFragmentViewModel extends BaseBindingFragmentViewModel<UserFrag
         fetchNewUser();
     }
 
-    private void fetchNewUser() {
+    protected void fetchNewUser() {
         controller.getRandomUser(userResult -> {
             if (userResult.getResults().size() > 0) {
                 user = userResult.getResults().get(0);
@@ -76,7 +76,7 @@ public class UserFragmentViewModel extends BaseBindingFragmentViewModel<UserFrag
 
     @Bindable
     public String getDisplayName() {
-        return String.format(getActivity().getString(R.string.hi_message), displayName);
+        return String.format(getActivity().getString(R.string.hi_message), displayName == null ? "" : displayName);
     }
 
     public void setDisplayName(String displayName) {
